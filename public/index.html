@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<!--<link rel="stylesheet" type="text/css" href="lib/bootstrap-3.3.5-dist/css/bootstrap.min.css">-->
+  <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+	<title>My cart</title>
+    <style type="text/css">
+    .orderColor{
+      color:red;
+    }
+    .bgcHightlight{background-color: lightgrey}
+  </style>
+</head>
+<script type="text/javascript">
+
+</script>
+<body ng-app="">
+
+	<div ng-controller="cartController" class="container" >
+
+      <nav class="navbar navbar-default">
+      <div class="container-fluid">
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <form class="navbar-form navbar-left" role="search">
+            <div class="form-group">
+              <input type="text" class="form-control" ng-model="searchId">Search ID
+            </div>
+          </form>
+        </div><!-- /.navbar-collapse -->
+      </div><!-- /.container-fluid -->
+
+            <div class="container-fluid">
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <form class="navbar-form navbar-left" role="search">
+            <div class="form-group">
+              <input type="text" class="form-control" ng-model="searchName">Search Name
+            </div>
+          </form>
+        </div><!-- /.navbar-collapse -->
+      </div><!-- /.container-fluid -->
+    </nav>
+	
+		<table class="table" ng-show="cart.length">
+  			<thead>
+  				<tr>
+  					<th ng-class={dropup:!order} ng-click="changeOrder('id')">
+              ID
+              <span class="caret" ng-class="{orderColor:orderType=='id'}"></span>
+            </th>
+  					<th ng-class={dropup:!order} ng-click="changeOrder('name')">
+              Name
+              <span class="caret" ng-class="{orderColor:orderType=='name'}"></span>
+            </th>
+  					<th ng-class={dropup:!order} ng-click="changeOrder('quantity')">
+              Quantity
+              <span class="caret" ng-class="{orderColor:orderType=='quantity'}"></span>
+            </th>
+  					<th ng-class={dropup:!order} ng-click="changeOrder('price')">
+              Unit Price
+              <span class="caret" ng-class="{orderColor:orderType=='price'}"></span>
+            </th>
+  					<th>Total</th>
+  					<th>Action</th>
+  				</tr>
+  			</thead>
+  			  <tbody>
+  				<tr ng-repeat = "item in cart | filter:{name:searchName, id:searchId}| orderBy:order + orderType" class="{{$even?'bgcHightlight':''}}">
+  					<td>{{item.id}}</td>
+  					<td>{{item.name}}</td>
+  					<td>
+  						<button type="button" class="btn btn-primary" ng-click="reduce(item.id)">-</button>
+  						<input type="text" value="{{item.quantity}}" ng-model=item.quantity onkeydown="return onlyNumbers(event)"></input>
+  						<button type="button" class="btn btn-primary" ng-click="add(item.id)">+</button>
+  					</td>
+  					<td>{{item.price | currency}}</td>
+  					<td>{{item.price * item.quantity | currency}}</td>
+  					<td><button type="button" class="btn btn-danger" ng-click="remove(item.id)">Remove</button></td>
+  				</tr>
+  				<tr>
+  					<td>
+  						Total price 	
+  					</td>
+  					<td>
+  						{{totalPrice() | currency}}
+  					</td>
+  					<td>
+  						Total Quantity
+  					</td>
+  					<td>
+  						{{totalQuatities()}}
+  					</td>
+
+  					<td colspan="2">
+  						<button type="button" class="btn btn-danger" ng-click="cart={}">Clear shopping cart</button>
+  					</td>
+  				</tr>
+  			</tbody>
+		</table>
+		<p ng-hide="cart.length">You shopping cart is empty!</p>
+    {{date}} 
+	</div>
+	
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.29/angular.min.js"></script>
+  <!--<script type="text/javascript" src="lib/angular.min.js"></script>-->
+  <script type="text/javascript" src="index.js"></script>
+</body>
+</html>
